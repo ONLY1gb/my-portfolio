@@ -1,17 +1,16 @@
-
 "use client";
 
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
-import { ArrowUpRight, Github } from "lucide-react";
-import { useRef, useState } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { useState, useRef } from "react";
 import ProjectDetailModal from "./ProjectDetailModal";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const projects = [
     {
         title: "AI Pocket Manager",
         category: "AI & Productivity",
         description: "A smart assistant that helps you organize tasks and ideas with GPT-4 turbo. Features real-time collaboration and intuitive voice commands.",
-        src: "ai_manager.png",
+        src: "demo.jpg",
         link: "#",
         color: "#3b82f6"
     },
@@ -19,7 +18,7 @@ const projects = [
         title: "EcoTrack Dashboard",
         category: "Data Visualization",
         description: "Real-time environmental monitoring dashboard with interactive charts. Tracks carbon footprint and suggests eco-friendly alternatives.",
-        src: "ecotrack.png",
+        src: "demo.jpg",
         link: "#",
         color: "#10b981"
     },
@@ -27,7 +26,7 @@ const projects = [
         title: "Neon Ecommerce",
         category: "Web Application",
         description: "A futuristic shopping experience with 3D product previews. Implements advanced cart functionality and seamless checkout flows.",
-        src: "neon_shop.png",
+        src: "demo.jpg",
         link: "#",
         color: "#ec4899"
     },
@@ -35,35 +34,105 @@ const projects = [
         title: "Synthwave Portfolio",
         category: "Creative Development",
         description: "An immersive 3D portfolio website featuring retro-futuristic aesthetics, audio-reactive visuals, and WebGL experiments.",
-        src: "portfolio.png",
+        src: "demo.jpg",
         link: "#",
         color: "#06b6d4"
+    },
+    {
+        title: "Crypto Nexus",
+        category: "Fintech",
+        description: "A comprehensive cryptocurrency dashboard with real-time trading data, portfolio tracking, and market sentiment analysis.",
+        src: "demo.jpg",
+        link: "#",
+        color: "#8b5cf6"
     }
 ];
 
 export default function FeaturedProjects() {
-    const container = useRef(null);
+    const [activeIndex, setActiveIndex] = useState(2); // Start in middle
     const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
-    const { scrollYProgress } = useScroll({
-        target: container,
-        offset: ['start start', 'end end']
-    })
+
+    const containerRef = useRef(null);
+    const inView = useInView(containerRef, { once: true, margin: "-100px" });
+
+    const handleNext = () => {
+        setActiveIndex((prev) => (prev + 1) % projects.length);
+    };
+
+    const handlePrev = () => {
+        setActiveIndex((prev) => (prev - 1 + projects.length) % projects.length);
+    };
 
     return (
-        <section ref={container} id="projects" className="bg-black text-white relative py-24 px-6 md:px-12">
-            <div className="max-w-7xl mx-auto mb-24">
-                <h2 className="text-sm font-mono text-gray-400 mb-2 tracking-widest uppercase">03. Selected Work</h2>
-                <h3 className="text-4xl md:text-5xl font-bold">Featured Projects</h3>
+        <section ref={containerRef} id="projects" className="bg-black text-white relative py-20 px-4 min-h-screen flex flex-col justify-center overflow-hidden">
+
+            <div className="max-w-7xl mx-auto mb-16 text-center relative z-10">
+                <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="text-sm font-mono text-gray-400 mb-2 tracking-widest uppercase"
+                >
+                    03. Selected Work
+                </motion.h2>
+                <motion.h3
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+                    className="text-4xl md:text-5xl font-bold"
+                >
+                    Featured Projects
+                </motion.h3>
             </div>
 
-            <div className="mt-[10vh] mb-[10vh] max-w-5xl mx-auto">
-                {
-                    projects.map((project, i) => {
-                        const targetScale = 1 - ((projects.length - i) * 0.05);
-                        return <Card key={i} i={i} {...project} progress={scrollYProgress} range={[i * .25, 1]} targetScale={targetScale} onClick={() => setSelectedProject(project)} />
-                    })
-                }
+            {/* Card Fan Container */}
+            <div className="relative h-[450px] w-full flex items-center justify-center">
+                {projects.map((project, index) => {
+                    // Circular Difference Logic for Infinite Loop Feel
+                    // This ensures there are always cards on both sides if possible
+                    let offset = (index - activeIndex + projects.length) % projects.length;
+
+                    // Adjustment for negative wrap-around (e.g. if length is 5, offset 4 should be -1)
+                    if (offset > projects.length / 2) {
+                        offset -= projects.length;
+                    }
+
+                    const isActive = offset === 0;
+
+                    return (
+                        <FanCard
+                            key={project.title}
+                            project={project}
+                            offset={offset}
+                            isActive={isActive}
+                            inView={inView}
+                            onClick={() => {
+                                if (isActive) {
+                                    setSelectedProject(project);
+                                } else {
+                                    setActiveIndex(index);
+                                }
+                            }}
+                        />
+                    );
+                })}
             </div>
+
+            {/* Navigation Dots */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={inView ? { opacity: 1 } : {}}
+                transition={{ delay: 0.8, duration: 0.5 }}
+                className="flex justify-center gap-3 mt-12 z-20"
+            >
+                {projects.map((_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => setActiveIndex(i)}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${i === activeIndex ? "w-8 bg-white" : "bg-white/20 hover:bg-white/40"}`}
+                    />
+                ))}
+            </motion.div>
 
             {/* Detail Modal */}
             <ProjectDetailModal
@@ -75,68 +144,78 @@ export default function FeaturedProjects() {
     )
 }
 
-interface CardProps {
-    i: number;
-    title: string;
-    description: string;
-    src: string;
-    link: string;
-    color: string;
-    progress: MotionValue<number>;
-    range: [number, number];
-    targetScale: number;
-    onClick: () => void;
-}
+function FanCard({ project, offset, isActive, inView, onClick }: { project: typeof projects[0], offset: number, isActive: boolean, inView: boolean, onClick: () => void }) {
 
-const Card = ({ i, title, description, src, link, color, progress, range, targetScale, onClick }: CardProps) => {
+    // Fan configuration
+    const CARD_WIDTH = 300;
+    const SPACING = 180; // Adjusted for better overlap
+    const ROTATION_FACTOR = 8; // Degree rotation per offset
+    const TRANSLATE_Y_FACTOR = 30; // Amount to drop side cards
 
-    const container = useRef(null);
-    const { scrollYProgress } = useScroll({
-        target: container,
-        offset: ['start end', 'start start']
-    })
-
-    const imageScale = useTransform(scrollYProgress, [0, 1], [2, 1])
-    const scale = useTransform(progress, range, [1, targetScale]);
+    // Only render if close enough to be visible
+    // We show 2 neighbors on each side
+    if (Math.abs(offset) > 2) return null;
 
     return (
-        <div ref={container} className="h-[80vh] flex items-center justify-center sticky top-0 perspective-1000">
-            <motion.div
-                layoutId={`card-${title}`}
-                onClick={onClick}
-                style={{ scale, backgroundColor: color, top: `calc(-5vh + ${i * 25}px)` }}
-                className="flex flex-col relative -top-[25%] h-[400px] md:h-[500px] w-full origin-top rounded-3xl p-10 gap-10 border border-white/10 shadow-2xl overflow-hidden cursor-pointer hover:shadow-cyan-500/20 transition-shadow"
-            >
-                <div className="flex h-full gap-10 flex-col md:flex-row pointer-events-none">
-                    {/* Text Content */}
-                    <div className="w-full md:w-[40%] relative top-[10%] space-y-4">
-                        <h2 className="text-3xl font-bold text-white">{title}</h2>
-                        <p className="text-base text-white/80 leading-relaxed font-light">
-                            {description}
-                        </p>
-                        <div className="pt-4 flex items-center gap-4">
-                            <span className="flex items-center gap-2 text-sm font-medium cursor-pointer hover:underline">
-                                See more <ArrowUpRight className="w-4 h-4" />
-                            </span>
-                            <span className="flex items-center gap-2 text-sm font-medium cursor-pointer hover:underline">
-                                <Github className="w-4 h-4" /> Source
-                            </span>
-                        </div>
-                    </div>
+        <motion.div
+            layoutId={`card-${project.title}`}
+            onClick={onClick}
+            className="absolute rounded-2xl overflow-hidden cursor-pointer origin-bottom"
+            initial={false}
+            animate={inView ? {
+                // Fanned State
+                x: offset * SPACING,
+                y: Math.abs(offset) * TRANSLATE_Y_FACTOR + (isActive ? 0 : 20),
+                rotateZ: offset * ROTATION_FACTOR,
+                scale: isActive ? 1.1 : 0.9 - Math.abs(offset) * 0.1,
+                zIndex: 100 - Math.abs(offset),
+                opacity: 1 - Math.abs(offset) * 0.1, // Fade out far items
+                filter: isActive ? "blur(0px) brightness(1.1)" : "blur(1px) brightness(0.7)"
+            } : {
+                // Hidden Behind Center State
+                x: 0, // All stacked in center
+                y: 20, // Slightly down
+                rotateZ: 0, // No rotation
+                scale: 0.9, // Slightly smaller
+                zIndex: 0, // Behind
+                opacity: 0, // Hidden
+                filter: "blur(0px)"
+            }}
+            whileHover={{
+                y: isActive ? -20 : undefined, // Lift up on hover if active
+                transition: { duration: 0.2 }
+            }}
+            transition={{
+                type: "spring",
+                stiffness: 200,
+                damping: 25,
+                // Sequenced delay: Center card triggers first (or last?), actually user wants "from behind middle".
+                // So delay increases as offset increases.
+                delay: inView ? Math.abs(offset) * 0.2 : 0
+            }}
+            style={{
+                width: CARD_WIDTH,
+                height: CARD_WIDTH * 1.5,
+                left: "50%",
+                // Important: center the element itself on its anchor point so 'x: 0' means 'centered'
+                marginLeft: -CARD_WIDTH / 2,
+                backgroundColor: project.color,
+                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+            }}
+        >
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
 
-                    {/* Image Container */}
-                    <div className="relative w-full md:w-[60%] h-full rounded-2xl overflow-hidden border border-white/20">
-                        <motion.div
-                            className="w-full h-full bg-black/20 backdrop-blur-sm"
-                            style={{ scale: imageScale }}
-                        >
-                            <div className="w-full h-full flex items-center justify-center text-white/30 font-mono">
-                                {src}
-                            </div>
-                        </motion.div>
-                    </div>
-                </div>
-            </motion.div>
-        </div>
-    )
+            {/* Content */}
+            <div className="absolute bottom-0 left-0 w-full p-6 text-white text-center">
+                <h3 className="text-xl font-bold mb-1">{project.title}</h3>
+                <p className="text-xs text-white/60 uppercase tracking-wider">{project.category}</p>
+            </div>
+
+            {/* Shine Effect */}
+            {isActive && (
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none" />
+            )}
+        </motion.div>
+    );
 }
