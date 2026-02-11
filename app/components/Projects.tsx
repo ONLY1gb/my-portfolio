@@ -7,42 +7,66 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const projects = [
     {
-        title: "AI Pocket Manager",
-        category: "AI & Productivity",
-        description: "A smart assistant that helps you organize tasks and ideas with GPT-4 turbo. Features real-time collaboration and intuitive voice commands.",
-        src: "demo.jpg",
+        title: "React Social Media App",
+        category: "Social Media Platform",
+        description: "A comprehensive social networking application building with React. Features real-time posts, user authentication, and interactive media galleries.",
+        src: "assets/React Social Media App/Image1.png",
+        gallery: [
+            "assets/React Social Media App/Image2.png",
+            "assets/React Social Media App/Image3.png",
+            "assets/React Social Media App/Image4.png"
+        ],
         link: "#",
         color: "#3b82f6"
     },
     {
-        title: "EcoTrack Dashboard",
+        title: "React Admin Dashboard",
         category: "Data Visualization",
         description: "Real-time environmental monitoring dashboard with interactive charts. Tracks carbon footprint and suggests eco-friendly alternatives.",
-        src: "demo.jpg",
+        src: "assets/React Admin Dashboard/Image1.png",
+        gallery: [
+            "assets/React Admin Dashboard/Image2.png",
+            "assets/React Admin Dashboard/Image3.png",
+            "assets/React Admin Dashboard/Image4.png"
+        ],
         link: "#",
         color: "#10b981"
     },
     {
-        title: "Neon Ecommerce",
+        title: "React E-Commerce Web App",
         category: "Web Application",
         description: "A futuristic shopping experience with 3D product previews. Implements advanced cart functionality and seamless checkout flows.",
-        src: "demo.jpg",
+        src: "assets/React E-Commerce Web App/image1.png",
+        gallery: [
+            "assets/React E-Commerce Web App/image2.png",
+            "assets/React E-Commerce Web App/image3.png",
+            "assets/React E-Commerce Web App/image4.png"
+        ],
         link: "#",
         color: "#ec4899"
     },
     {
-        title: "Synthwave Portfolio",
-        category: "Creative Development",
-        description: "An immersive 3D portfolio website featuring retro-futuristic aesthetics, audio-reactive visuals, and WebGL experiments.",
-        src: "demo.jpg",
+        title: "Food Recipe App",
+        category: "Culinary & Lifestyle",
+        description: "Discover and share delicious recipes with step-by-step guides, nutritional info, and meal planning.",
+        src: "assets/Food-Recipe/Image1.png",
+        gallery: [
+            "assets/Food-Recipe/Image2.png",
+            "assets/Food-Recipe/Image3.png"
+        ],
         link: "#",
-        color: "#06b6d4"
+        color: "#f97316"
     },
     {
         title: "Crypto Nexus",
         category: "Fintech",
         description: "A comprehensive cryptocurrency dashboard with real-time trading data, portfolio tracking, and market sentiment analysis.",
-        src: "demo.jpg",
+        src: "assets/CryptoPlace/Image1.png",
+        gallery: [
+            "assets/CryptoPlace/Image2.png",
+            "assets/CryptoPlace/Image3.png",
+            "assets/CryptoPlace/Image4.png"
+        ],
         link: "#",
         color: "#8b5cf6"
     }
@@ -203,8 +227,15 @@ function FanCard({ project, offset, isActive, inView, onClick }: { project: type
                 boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
             }}
         >
+            {/* Background Image */}
+            <img
+                src={`/${project.src}`}
+                alt={project.title}
+                className="absolute inset-0 w-full h-full object-cover"
+            />
+
             {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/90" />
 
             {/* Content */}
             <div className="absolute bottom-0 left-0 w-full p-6 text-white text-center">

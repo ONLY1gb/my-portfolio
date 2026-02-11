@@ -13,6 +13,7 @@ interface ProjectDetailModalProps {
         description: string;
         category: string;
         src: string;
+        gallery?: string[];
         link: string;
         color: string;
     };
@@ -140,7 +141,7 @@ export default function ProjectDetailModal({ isOpen, onClose, project }: Project
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    {[1, 2, 3].map((item, index) => (
+                                    {project.gallery && project.gallery.length > 0 ? project.gallery.map((image, index) => (
                                         <motion.div
                                             key={index}
                                             initial={{ opacity: 0, y: 20 }}
@@ -150,10 +151,8 @@ export default function ProjectDetailModal({ isOpen, onClose, project }: Project
                                         >
                                             {/* Image Container */}
                                             <div className="relative aspect-video rounded-md overflow-hidden bg-zinc-800 mb-3 border border-white/10 group-hover:border-white/50 transition-colors">
-                                                {/* We use the project source or specific gallery images here. 
-                                             For now, using project.src as a placeholder for all gallery items. */}
                                                 <img
-                                                    src={`/${project.src}`}
+                                                    src={`/${image}`}
                                                     alt={`Highlight ${index + 1}`}
                                                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                                                 />
@@ -163,17 +162,15 @@ export default function ProjectDetailModal({ isOpen, onClose, project }: Project
                                             {/* Meta */}
                                             <div className="flex justify-between items-start">
                                                 <h4 className="text-white font-medium group-hover:text-gray-300 transition-colors">
-                                                    {index === 0 ? "Main Dashboard" : index === 1 ? "Mobile View" : "Analytics Panel"}
+                                                    {index === 0 ? "Product Listing" : index === 1 ? "Cart & Checkout" : "User Profile"}
                                                 </h4>
                                             </div>
-                                            <p className="text-xs text-gray-500 mt-1 line-clamp-2">
-                                                High-fidelity UI showing the core functionality and design system integration.
-                                            </p>
                                         </motion.div>
-                                    ))}
+                                    )) : (
+                                        <p className="text-gray-500">No gallery images available.</p>
+                                    )}
                                 </div>
                             </div>
-
 
                         </motion.div>
                     </div>
