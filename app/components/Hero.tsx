@@ -3,7 +3,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail, Instagram } from "lucide-react";
 import { SplineScene } from "@/components/ui/spline";
 import { Spotlight } from "@/components/ui/spotlight";
 import { useEffect, useRef, useState } from "react";
@@ -90,9 +90,10 @@ export default function Hero() {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="flex gap-6 justify-center lg:justify-start pt-4 text-gray-400"
           >
-            <SocialLink href="#" icon={<Github className="w-6 h-6" />} label="Github" />
-            <SocialLink href="#" icon={<Linkedin className="w-6 h-6" />} label="LinkedIn" />
-            <SocialLink href="#" icon={<Mail className="w-6 h-6" />} label="Email" />
+            <SocialLink href="https://github.com/" icon={<Github className="w-6 h-6" />} label="Github" />
+            <SocialLink href="https://www.linkedin.com/in/gautam-bhawsar-82267625b/" icon={<Linkedin className="w-6 h-6" />} label="LinkedIn" />
+            <SocialLink href="https://www.instagram.com/er.gautam_bhawsar?igsh=MTJocGt2dDBsMGZiaA==" icon={<Instagram className="w-6 h-6" />} label="Instagram" />
+            <SocialLink href="mailto:contact@gautambhawsar.dev" icon={<Mail className="w-6 h-6" />} label="Email" />
           </motion.div>
         </motion.div>
 
@@ -131,6 +132,8 @@ function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode
   return (
     <a
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label={label}
       className="transform transition-transform hover:scale-110 hover:text-white"
     >

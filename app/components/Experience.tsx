@@ -6,22 +6,10 @@ import { useRef } from "react";
 
 const experience = [
     {
-        year: "2024",
-        title: "Senior Frontend Engineer",
-        company: "TechCorp Inc.",
-        desc: "Leading the frontend team in rebuilding the core product dashboard. Improved performance by 40%.",
-    },
-    {
-        year: "2022",
-        title: "Software Developer",
-        company: "StartUp Alpha",
-        desc: "Developed and launched 3 key features for the mobile app. Collaborated with design to implement a new design system.",
-    },
-    {
-        year: "2020",
-        title: "Junior Developer",
-        company: "Creative Agency",
-        desc: "Built responsive websites for 15+ clients using React and WordPress. Learned the importance of pixel-perfect implementation.",
+        year: "Dec 2024 - Present",
+        title: "Full Stack Web Developer",
+        company: "GenaiProtos",
+        desc: "Developing scalable full-stack web applications and AI-driven solutions. Leveraging Generative AI to drive product innovation and collaborating with cross-functional teams to deliver high-quality software.",
     },
 ];
 
