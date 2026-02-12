@@ -69,6 +69,31 @@ const projects = [
         ],
         link: "#",
         color: "#8b5cf6"
+    },
+    {
+        title: "Car Rental Service",
+        category: "Booking Platform",
+        description: "A premium car rental booking application with fleet management, date selection, and secure payment integration.",
+        src: "assets/Car-Website/Image1.png",
+        gallery: [
+            "assets/Car-Website/Image2.png",
+            "assets/Car-Website/Image3.png"
+        ],
+        link: "#",
+        color: "#ef4444"
+    },
+    {
+        title: "Myntra Clone",
+        category: "E-Commerce",
+        description: "A full-featured fashion e-commerce clone featuring product filtering, wishlist management, and a seamless shopping cart experience.",
+        src: "assets/Myntra/Myntra1.png",
+        gallery: [
+            "assets/Myntra/Myntra2.png",
+            "assets/Myntra/Myntra3.png",
+            "assets/Myntra/Myntra8.png"
+        ],
+        link: "#",
+        color: "#f472b6"
     }
 ];
 
