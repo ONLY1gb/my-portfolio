@@ -227,15 +227,15 @@ function FanCard({ project, offset, isActive, inView, onClick }: { project: type
                 boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
             }}
         >
-            {/* Background Image */}
-            <img
+            {/* Background Image - REMOVED */}
+            {/* <img
                 src={`/${project.src}`}
                 alt={project.title}
                 className="absolute inset-0 w-full h-full object-cover"
-            />
+            /> */}
 
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/90" />
+            {/* Gradient Overlay - Adjusted for colored card */}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/60" />
 
             {/* Content */}
             <div className="absolute bottom-0 left-0 w-full p-6 text-white text-center">

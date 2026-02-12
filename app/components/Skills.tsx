@@ -5,15 +5,14 @@ import { HTMLMotionProps, motion } from "framer-motion";
 import { Code2, Cpu, Database, Globe, Layers, Layout, Server, Smartphone, Zap } from "lucide-react";
 
 const skills = [
-    { name: "React", icon: <Code2 /> },
-    { name: "Next.js", icon: <Globe /> },
-    { name: "TypeScript", icon: <Layout /> },
-    { name: "Node.js", icon: <Server /> },
-    { name: "Tailwind", icon: <Layers /> },
-    { name: "Framer Motion", icon: <Zap /> },
-    { name: "PostgreSQL", icon: <Database /> },
-    { name: "React Native", icon: <Smartphone /> },
-    { name: "System Design", icon: <Cpu /> },
+    { name: "React", img: "/assets/logos/react.svg" },
+    { name: "Next.js", img: "/assets/logos/nextjs (1).svg" },
+    { name: "TypeScript", img: "/assets/logos/typescript (1).svg" },
+    { name: "Node.js", img: "/assets/logos/nodejs-icon-alt.svg" },
+    { name: "Tailwind", img: "/assets/logos/tailwindcss.svg" },
+    { name: "Framer Motion", img: "/assets/logos/framermotion.svg" },
+    { name: "PostgreSQL", img: "/assets/logos/postgresql.png" },
+    { name: "UI/UX Design", img: "/assets/logos/design-ideas-16.svg" },
 ];
 
 export default function Skills() {
@@ -55,8 +54,19 @@ function MarqueeContent({ direction, ...props }: { direction: "left" | "right" }
                     className="flex flex-col items-center gap-4 group cursor-default"
                 >
                     <div className="p-6 rounded-2xl bg-zinc-900 border border-zinc-800 transition-all duration-300 group-hover:scale-110 group-hover:border-white/30 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-                        <div className="w-8 h-8 md:w-12 md:h-12 text-gray-400 group-hover:text-white transition-colors">
-                            {skill.icon}
+                        <div className="w-12 h-12 flex items-center justify-center text-gray-400 group-hover:text-white transition-colors">
+                            {/* @ts-ignore */}
+                            {skill.img ? (
+                                <img
+                                    // @ts-ignore
+                                    src={skill.img}
+                                    alt={skill.name}
+                                    className="w-full h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300 invert-[0.8] group-hover:invert-0"
+                                />
+                            ) : (
+                                // @ts-ignore
+                                skill.icon
+                            )}
                         </div>
                     </div>
                     <span className="text-sm font-medium text-gray-500 group-hover:text-white transition-colors">
