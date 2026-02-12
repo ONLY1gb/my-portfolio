@@ -62,7 +62,7 @@ export default function Contact() {
             {/* Calendly Modal */}
             {mounted && (
                 <PopupModal
-                    url="https://calendly.com/gautam-bhawsar8269/30min"
+                    url={process.env.NEXT_PUBLIC_CALENDLY_URL || ""}
                     onModalClose={() => setIsCalendlyOpen(false)}
                     open={isCalendlyOpen}
                     rootElement={document.body}
